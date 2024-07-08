@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 class ContactBook:
     def __init__(self, name, father_name, email, contact, address):
         self.name = name
@@ -6,9 +8,20 @@ class ContactBook:
         self.contact = contact
         self.address = address
 
+    @abstractmethod
+    def __str__(self):
+       pass
+
+
+class PersonalContact(ContactBook):
     def __str__(self):
         return f"***********\n Name: {self.name}, \n Father Name: {self.father_name}, \n Email: {self.email}, \n Contact: {self.contact}, \n Address: {self.address} \n**********"
-    
+
+
+class BussinessContact(ContactBook):
+    def __str__(self):
+        return f"***********\n Business Name: {self.name}, \n Contact Person: {self.father_name}, \n Business Email: {self.email}, \n Business Contact: {self.contact}, \n Business Address: {self.address} \n**********"
+
 
 class ContactBookManagement:
     def __init__(self):
@@ -43,13 +56,20 @@ class ContactBookManagement:
             user_input = input(choose_option)
 
     def add_record(self):
-        name = input("Enter Person Name: ")
-        father_name = input("Enter the Father Name of the Person: ")
-        email = input("Enter the Email of the Person: ")
-        phone = input("Enter the Phone Number of the person: ")
-        address = input("Enter Address of the Person: ")
+        contact_type = input("Enter 'p' for Personal Contact or 'b' for Business Contact: ").lower()
+        name = input("Enter Name: ")
+        father_name = input("Enter the Father Name / Contact Person: ")
+        email = input("Enter the Email: ")
+        phone = input("Enter the Phone Number: ")
+        address = input("Enter Address: ")
 
-        record = ContactBook(name, father_name, email, phone, address)
+        if contact_type == 'p':
+            record = PersonalContact(name, father_name, email, phone, address)
+        elif contact_type == 'b':
+            record = BussinessContact(name, father_name, email, phone, address)
+        else:
+            print("Invalid Contact Type")
+            return
 
         self.contact_book.append(record)
 
