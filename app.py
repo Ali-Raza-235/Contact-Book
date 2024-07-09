@@ -1,11 +1,11 @@
 from abc import abstractmethod
 
 class ContactBook:
-    def __init__(self, name, father_name, email, contact, address):
+    def __init__(self, name, father_name, email, phone, address):
         self.name = name
         self.father_name = father_name
         self.email = email
-        self.contact = contact
+        self.phone = phone
         self.address = address
 
     @abstractmethod
@@ -15,12 +15,12 @@ class ContactBook:
 
 class PersonalContact(ContactBook):
     def __str__(self):
-        return f"***********\n Name: {self.name}, \n Father Name: {self.father_name}, \n Email: {self.email}, \n Contact: {self.contact}, \n Address: {self.address} \n**********"
+        return f"***********\n Name: {self.name}, \n Father Name: {self.father_name}, \n Email: {self.email}, \n Contact: {self.phone}, \n Address: {self.address} \n**********"
 
 
 class BussinessContact(ContactBook):
     def __str__(self):
-        return f"***********\n Business Name: {self.name}, \n Contact Person: {self.father_name}, \n Business Email: {self.email}, \n Business Contact: {self.contact}, \n Business Address: {self.address} \n**********"
+        return f"***********\n Business Name: {self.name}, \n Contact Person: {self.father_name}, \n Business Email: {self.email}, \n Business Contact: {self.phone}, \n Business Address: {self.address} \n**********"
 
 
 class ContactBookManagement:
