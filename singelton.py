@@ -10,7 +10,7 @@ class ContactBook:
 
     @abstractmethod
     def __str__(self):
-       pass
+        pass
 
 
 class PersonalContact(ContactBook):
@@ -18,14 +18,27 @@ class PersonalContact(ContactBook):
         return f"***********\n Name: {self.name}, \n Father Name: {self.father_name}, \n Email: {self.email}, \n Contact: {self.phone}, \n Address: {self.address} \n**********"
 
 
-class BussinessContact(ContactBook):
+class BusinessContact(ContactBook):
     def __str__(self):
         return f"***********\n Business Name: {self.name}, \n Contact Person: {self.father_name}, \n Business Email: {self.email}, \n Business Contact: {self.phone}, \n Business Address: {self.address} \n**********"
 
 
 class ContactBookManagement:
+    _instance = None
+    _initialized = False
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(ContactBookManagement, cls).__new__(cls, *args, **kwargs)
+        else:
+            raise Exception("This class is a singleton! Only one instance is allowed.")
+        return cls._instance
+
     def __init__(self):
+        if ContactBookManagement._initialized:
+            return
         self.contact_book = []
+        ContactBookManagement._initialized = True
 
     def menu(self):
         choose_option = """
@@ -66,10 +79,9 @@ class ContactBookManagement:
         if contact_type == 'p':
             record = PersonalContact(name, father_name, email, phone, address)
         elif contact_type == 'b':
-            record = BussinessContact(name, father_name, email, phone, address)
+            record = BusinessContact(name, father_name, email, phone, address)
         else:
             print("Invalid Contact Type")
-
 
         self.contact_book.append(record)
 
@@ -96,10 +108,9 @@ class ContactBookManagement:
                 record.address = address
 
                 print("Record Updated Successfully.")
+                return
             
-            
-            else:
-                print("Data Not Found")
+        print("Data Not Found")
 
     def find_record(self):
         search_name = input("Enter the Name of a Person you want to Search: ")
@@ -108,10 +119,9 @@ class ContactBookManagement:
         for record in self.contact_book:
             if record.name == search_name or record.email == search_email:
                 print(record)
+                return
             
-            
-            else:
-                print("Data Not Found")
+        print("Data Not Found")
 
     def remove_record(self):
         search_name = input("Enter the Name of a Person you want to Search: ")
@@ -121,11 +131,9 @@ class ContactBookManagement:
             if record.name == search_name or record.email == search_email:
                 self.contact_book.remove(record)
                 print(f" \n Record {record}, \n has been removed Successfully.")
+                return
 
-            else:
-                print("Data Not Found")
-
-
+        print("Data Not Found")
 
 
 if __name__ == "__main__":
